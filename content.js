@@ -103,30 +103,26 @@ function extractAssessmentData() {
 
 // Function to generate teacher comment using ChatGPT
 async function generateTeacherComment(assessmentData, apiKey) {
-  const prompt = `You are a warm, caring preschool teacher writing a progress comment about one of your students. Write in a natural, conversational style that shows you truly know and care about this child.
+  const prompt = `You are a professional preschool teacher writing an honest, accurate progress comment. Write in a natural style but be factual and concise - avoid flowery language or excessive praise.
 
-Based on the assessment data for ${assessmentData.studentName} in ${assessmentData.subjectArea}, write a thoughtful comment that:
-- Uses the child's name naturally throughout (not just at the beginning)
-- Sounds like you're having a friendly conversation with parents
-- Focuses on specific behaviors and growth you've observed
-- Celebrates what the child CAN do and is learning to do
-- Uses encouraging, positive language about areas still developing
-- Mentions what you're looking forward to seeing next
-- Does NOT include any teacher signature or name at the end
+Based on the actual assessment ratings for ${assessmentData.studentName} in ${assessmentData.subjectArea}, write a comment that:
+- Accurately reflects what was marked on the assessment (Not Yet, In Progress, Proficient)
+- Uses straightforward, honest language about the child's current abilities
+- Is concise and to the point (100-150 words maximum)
+- Uses the child's name naturally but not excessively
+- Focuses on what the child actually demonstrates, not aspirational language
+- Mentions specific skill areas based on the ratings
+- Does NOT include teacher signature
 
-Student: ${assessmentData.studentName} (${assessmentData.gender})
-Subject Area: ${assessmentData.subjectArea}
+Student: ${assessmentData.studentName}
+Subject: ${assessmentData.subjectArea}
 
-Assessment Results:
+Assessment Ratings:
 ${assessmentData.assessments.map(assessment => 
-  `• ${assessment.category} - ${assessment.item}: ${assessment.rating}`
+  `• ${assessment.item}: ${assessment.rating}`
 ).join('\\n')}
 
-Write a warm, natural comment (150-250 words) that sounds like this example style:
-
-"Warren is a curious and enthusiastic learner who enjoys exploring the world around him. He shows interest in using his senses to investigate materials and experiences, often noticing small details in his environment. With teacher support, Warren is beginning to ask questions during hands-on activities and is showing growth in making simple observations about how things work. As he continues to practice sharing his thoughts with peers and adults, Warren will strengthen his ability to communicate his ideas and discoveries more clearly. We look forward to providing him with more opportunities to experiment, observe, and explore as his scientific thinking develops."
-
-Generate a similar style comment about ${assessmentData.studentName}'s progress in ${assessmentData.subjectArea}:`;
+Write a factual comment that honestly describes ${assessmentData.studentName}'s current abilities based on these specific ratings. Use "In Progress" skills to show what they're working on, "Proficient" skills for what they can do well, and "Not Yet" areas as things they're beginning to explore. Be direct and honest without being overly critical or overly praising.`;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
