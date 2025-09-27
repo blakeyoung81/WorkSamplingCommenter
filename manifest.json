@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Work Sampling Teacher Comment Generator",
+  "version": "1.0",
+  "description": "Generate compassionate teacher comments for Work Sampling System assessments using AI",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://api.openai.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Generate Teacher Comment"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png", 
+    "128": "icon128.png"
+  }
+}

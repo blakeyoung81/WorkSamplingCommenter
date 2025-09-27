@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Sampling Comment Generator</title>
+    <style>
+        body {
+            width: 350px;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            background: #f8f9fa;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h2 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #34495e;
+            font-size: 13px;
+        }
+        
+        input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        
+        input[type="password"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .button {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .button:hover:not(:disabled) {
+            background: #2980b9;
+        }
+        
+        .button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.loading {
+            background: #cce7ff;
+            color: #0056b3;
+            border: 1px solid #99d6ff;
+        }
+        
+        .api-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .api-info a {
+            color: #856404;
+            text-decoration: underline;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .save-key {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .save-key input[type="checkbox"] {
+            margin: 0;
+        }
+        
+        .save-key label {
+            margin: 0;
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>🎓 Teacher Comment Generator</h2>
+        <p>Generate compassionate comments for Work Sampling assessments</p>
+    </div>
+    
+    <div class="api-info">
+        <strong>⚠️ API Key Required:</strong> You need an OpenAI API key to use this extension. 
+        <a href="https://platform.openai.com/api-keys" target="_blank">Get one here</a>
+    </div>
+    
+    <div style="text-align: center; margin-bottom: 15px;">
+        <a href="https://wsoz.pearsonclinical.com/wsoTeacherApp/assessment/checklist/showChecklist.html" 
+           target="_blank" 
+           style="color: #3498db; text-decoration: none; font-size: 13px; font-weight: 500;">
+            📋 Manage Checklists
+        </a>
+    </div>
+    
+    <form id="commentForm">
+        <div class="form-group">
+            <label for="apiKey">OpenAI API Key:</label>
+            <input type="password" id="apiKey" placeholder="sk-..." required>
+            <div class="save-key">
+                <input type="checkbox" id="saveKey" checked>
+                <label for="saveKey">Auto-save API key (saves automatically as you type)</label>
+            </div>
+        </div>
+        
+        <button type="submit" class="button" id="generateBtn">
+            Generate Comment
+        </button>
+    </form>
+    
+    <div id="status" class="status"></div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
