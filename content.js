@@ -226,12 +226,17 @@ async function addGenerateButton() {
     console.error('Error checking for saved API key:', error);
   }
 
-  // Find the comments section to position the button near it
-  const commentsSection = document.querySelector('.row-fluid.padded');
-  const commentsContainer = commentsSection?.querySelector('.span12');
+  // Find the comments textarea and its parent container more reliably
+  const commentsTextarea = document.querySelector('#comments');
+  if (!commentsTextarea) {
+    console.error('Could not find comments textarea');
+    return;
+  }
   
-  if (!commentsContainer) {
-    console.error('Could not find comments section for button placement');
+  // Find the parent row that contains the comments section
+  const commentsSection = commentsTextarea.closest('.row-fluid.padded');
+  if (!commentsSection) {
+    console.error('Could not find comments section container');
     return;
   }
 
@@ -239,9 +244,9 @@ async function addGenerateButton() {
   const buttonContainer = document.createElement('div');
   buttonContainer.id = 'ai-comment-generator';
   buttonContainer.style.cssText = `
-    display: inline-block;
-    margin-left: 15px;
-    vertical-align: top;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 10px;
     font-family: Arial, sans-serif;
   `;
 
@@ -253,9 +258,9 @@ async function addGenerateButton() {
     background: ${hasApiKey ? '#4CAF50' : '#FF9800'};
     color: white;
     border: none;
-    padding: 10px 16px;
+    padding: 12px 24px;
     border-radius: 6px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -326,14 +331,8 @@ async function addGenerateButton() {
 
   buttonContainer.appendChild(generateBtn);
   
-  // Insert the button after the "Comments" label
-  const commentsLabel = document.querySelector('#commentsLabelWS');
-  if (commentsLabel) {
-    commentsLabel.parentNode.insertBefore(buttonContainer, commentsLabel.nextSibling);
-  } else {
-    // Fallback: append to the comments container
-    commentsContainer.insertBefore(buttonContainer, commentsContainer.firstChild);
-  }
+  // Insert the button just above the comments section
+  commentsSection.parentNode.insertBefore(buttonContainer, commentsSection);
 
   // Add initial notification
   setTimeout(() => {
