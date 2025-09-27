@@ -226,14 +226,22 @@ async function addGenerateButton() {
     console.error('Error checking for saved API key:', error);
   }
 
+  // Find the comments section to position the button near it
+  const commentsSection = document.querySelector('.row-fluid.padded');
+  const commentsContainer = commentsSection?.querySelector('.span12');
+  
+  if (!commentsContainer) {
+    console.error('Could not find comments section for button placement');
+    return;
+  }
+
   // Create the generate button container
   const buttonContainer = document.createElement('div');
   buttonContainer.id = 'ai-comment-generator';
   buttonContainer.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 10000;
+    display: inline-block;
+    margin-left: 15px;
+    vertical-align: top;
     font-family: Arial, sans-serif;
   `;
 
@@ -245,14 +253,14 @@ async function addGenerateButton() {
     background: ${hasApiKey ? '#4CAF50' : '#FF9800'};
     color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 14px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 13px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
-    min-width: 160px;
+    white-space: nowrap;
   `;
 
   generateBtn.addEventListener('mouseenter', function() {
@@ -317,7 +325,15 @@ async function addGenerateButton() {
   });
 
   buttonContainer.appendChild(generateBtn);
-  document.body.appendChild(buttonContainer);
+  
+  // Insert the button after the "Comments" label
+  const commentsLabel = document.querySelector('#commentsLabelWS');
+  if (commentsLabel) {
+    commentsLabel.parentNode.insertBefore(buttonContainer, commentsLabel.nextSibling);
+  } else {
+    // Fallback: append to the comments container
+    commentsContainer.insertBefore(buttonContainer, commentsContainer.firstChild);
+  }
 
   // Add initial notification
   setTimeout(() => {
@@ -333,14 +349,14 @@ function showNotification(message, type = 'info', duration = 3000) {
   const notification = document.createElement('div');
   notification.style.cssText = `
     position: fixed;
-    top: 80px;
+    top: 20px;
     right: 20px;
     z-index: 10001;
-    padding: 15px 20px;
-    border-radius: 8px;
+    padding: 12px 16px;
+    border-radius: 6px;
     font-family: Arial, sans-serif;
-    font-size: 14px;
-    max-width: 300px;
+    font-size: 13px;
+    max-width: 280px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     animation: slideIn 0.3s ease-out;
   `;
