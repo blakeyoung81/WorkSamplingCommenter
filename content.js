@@ -164,10 +164,27 @@ Write a factual comment that honestly describes ${assessmentData.studentName}'s 
 function insertComment(comment) {
   const commentTextarea = document.querySelector('#comments');
   if (commentTextarea) {
+    // Set the value
     commentTextarea.value = comment;
-    // Trigger change event to ensure the form recognizes the new content
-    commentTextarea.dispatchEvent(new Event('change', { bubbles: true }));
+    
+    // Focus the textarea first
     commentTextarea.focus();
+    
+    // Trigger multiple events to ensure the system recognizes the change
+    commentTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+    commentTextarea.dispatchEvent(new Event('change', { bubbles: true }));
+    commentTextarea.dispatchEvent(new Event('blur', { bubbles: true }));
+    
+    // Also trigger the onchange handler directly if it exists
+    if (commentTextarea.onchange) {
+      commentTextarea.onchange();
+    }
+    
+    // Call the enforceMaxLength function if it exists (from the original HTML)
+    if (typeof enforceMaxLength === 'function') {
+      enforceMaxLength('comments');
+    }
+    
     return true;
   }
   return false;
